@@ -20,7 +20,6 @@ class UserLoginService
     {
         if ($user->getUserName() != ""){
             $this->loggedUsers[] = $user;
-            #array_push($this->loggedUsers,$user);
         }
 
     }
@@ -30,10 +29,20 @@ class UserLoginService
         return  $this->loggedUsers;
     }
     public function countExternalSession(): int{
-        #$sessionManager = new SessionManager();
+
         return $this->sessionManager->getSessions();
 
 
+    }
+    public function login(string $userName, string $password):string{
+        if ($this->sessionManager->login($userName, $password) == true){
+            $user = new User($userName);
+            $this->manualLogin($user);
+
+            return "Login correcto";
+        }
+
+        return "Login incorrecto";
     }
 
 }

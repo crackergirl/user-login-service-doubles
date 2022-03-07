@@ -7,6 +7,7 @@ namespace UserLoginService\Tests\Application;
 use PHPUnit\Framework\TestCase;
 use UserLoginService\Application\UserLoginService;
 use UserLoginService\Domain\User;
+use UserLoginService\Infrastructure\FacebookSessionManager;
 use UserLoginService\Tests\Doubles\StubSessionManager;
 
 final class UserLoginServiceTest extends TestCase
@@ -34,6 +35,18 @@ final class UserLoginServiceTest extends TestCase
         $countExternalSession = $userLoginService->countExternalSession();
 
         $this->assertEquals(2, $countExternalSession);
+
+    }
+
+    /**
+     * @test
+     */
+    public function userIsLoggedInAPIFacebook(){
+        $userLoginService = new UserLoginService(new FacebookSessionManager());
+
+        $loginSession = $userLoginService->login("Paula", "1234");
+
+        $this->assertEquals("Login correcto", $loginSession);
 
     }
 
