@@ -6,6 +6,8 @@ namespace UserLoginService\Tests\Application;
 
 use PHPUnit\Framework\TestCase;
 use UserLoginService\Application\UserLoginService;
+use UserLoginService\Domain\User;
+use UserLoginService\Tests\Doubles\StubSessionManager;
 
 final class UserLoginServiceTest extends TestCase
 {
@@ -14,8 +16,30 @@ final class UserLoginServiceTest extends TestCase
      */
     public function userIsLoggedIn()
     {
-        $userLoginService = new UserLoginService();
+        $userLoginService = new UserLoginService(new StubSessionManager());
+        $user = new User("Alex");
+        $expectedLoggedUsers = [$user];
 
-        $this->assertEquals("user logged", $userLoginService->manualLogin());
+        $userLoginService->manualLogin($user);
+
+        $this->assertEquals($expectedLoggedUsers, $userLoginService->getLoggedUsers());
     }
+
+    /**
+     * @test
+     */
+    public function countesExternalSession(){
+        $userLoginService = new UserLoginService(new StubSessionManager());
+
+        $countExternalSession = $userLoginService->countExternalSession();
+
+        $this->assertEquals(2, $countExternalSession);
+
+    }
+
+
+
+
+
+
 }
