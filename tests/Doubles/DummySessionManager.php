@@ -8,11 +8,21 @@ class DummySessionManager implements SessionManager
 
     public function getSessions(): int
     {
-        return;
+
     }
 
     public function login(string $userName, string $password): bool
     {
-        return;
+
+    }
+
+    public function logout(string $userName): void
+    {
+        // TODO: Implement logout() method.
+    }
+
+    public function secureLogin(string $getUserName)
+    {
+        // TODO: Implement secureLogin() method.
     }
 }
